@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const port = 3000;
 const app = express();
+
 //require('dotenv').config();
 
 //Instanciation
@@ -13,6 +14,14 @@ const blogroute = require("./routes/blogroute");
 app.use('/', blogroute);
 
 //configuration
+mongoose.connect(process.env.DATABASE);
+mongoose.connection
+.once('open',()=>{
+  console.log('Mongoose connection open');
+})
+.on('error',(err)=>{
+console.log(`connection error:${err.message}`);
+});
 //middleware
 
 app.use(express.urlencoded({ extended: true }));
